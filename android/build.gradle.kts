@@ -37,9 +37,27 @@ android {
     viewBinding = true
   }
 
+  signingConfigs {
+    named("debug").configure {
+      storeFile = file("../signing/debug.keystore")
+    }
+  }
+
   buildTypes {
+    getByName("debug") {
+      signingConfig = signingConfigs["debug"]
+      applicationIdSuffix = ".debug"
+    }
+
     getByName("release") {
-      isMinifyEnabled = false
+      signingConfig = signingConfigs["debug"]
+      postprocessing {
+        proguardFiles.add(file("proguard-rules.pro"))
+        isRemoveUnusedResources = true
+        isRemoveUnusedCode = true
+        isOptimizeCode = true
+        isObfuscate = true
+      }
     }
   }
 }
