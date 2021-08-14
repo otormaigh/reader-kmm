@@ -31,6 +31,7 @@ android {
     targetSdkVersion(30)
     versionCode = 1
     versionName = "1.0"
+    base.archivesName.set("reader-$versionName")
   }
 
   buildFeatures {
