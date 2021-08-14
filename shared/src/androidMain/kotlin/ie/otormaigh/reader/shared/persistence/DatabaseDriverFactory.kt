@@ -14,27 +14,14 @@
  * limitations under the License.
  */
 
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-  }
+package ie.otormaigh.reader.shared.persistence
 
-  dependencies {
-    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
-    classpath("com.android.tools.build:gradle:4.2.2")
-    classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.21")
-    classpath("com.squareup.sqldelight:gradle-plugin:1.5.1")
-  }
-}
+import android.content.Context
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
 
-group = "ie.otormaigh.reader"
-version = "0.1"
-
-allprojects {
-  repositories {
-    google()
-    mavenCentral()
+actual class DatabaseDriverFactory(private val context: Context) {
+  actual fun createDriver(): SqlDriver {
+    return AndroidSqliteDriver(ReaderDatabase.Schema, context, "reader.db")
   }
 }

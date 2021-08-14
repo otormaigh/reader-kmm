@@ -16,7 +16,7 @@
 
 package ie.otormaigh.reader.shared.networking
 
-import ie.otormaigh.reader.shared.entity.HackerNewsItem
+import ie.otormaigh.reader.shared.entity.HackerNewsItemResponse
 import io.ktor.client.*
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.*
@@ -31,9 +31,9 @@ class HackerNewsApi {
       serializer = KotlinxSerializer(json)
     }
   }
-  private val cachedItems = mutableListOf<HackerNewsItem>()
+  private val cachedItems = mutableListOf<HackerNewsItemResponse>()
 
-  suspend fun getFeedItems(page: Int = 1): List<HackerNewsItem> {
+  suspend fun getFeedItems(page: Int = 1): List<HackerNewsItemResponse> {
     // TODO: Some better caching/pagination
     if (page <= 1 || cachedItems.isEmpty()) {
       cachedItems.clear()
@@ -44,7 +44,7 @@ class HackerNewsApi {
     }
 
     val ids: List<Int> = httpClient.get("$BASE_URL/topstories.json")
-    val items = mutableListOf<HackerNewsItem>()
+    val items = mutableListOf<HackerNewsItemResponse>()
 
     ids.take(25).forEach { id ->
       items += getItem(id)
@@ -52,7 +52,7 @@ class HackerNewsApi {
     return items
   }
 
-  private suspend fun getItem(id: Int): HackerNewsItem =
+  private suspend fun getItem(id: Int): HackerNewsItemResponse =
     httpClient.get("$BASE_URL/item/$id.json/")
 
   companion object {
