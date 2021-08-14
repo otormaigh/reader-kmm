@@ -1,0 +1,83 @@
+name: Build + Check + APK Stats
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  pre-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+      - name: Setup Java
+        uses: actions/setup-java@v2.1.0
+        with:
+          java-version: 11
+          distribution: 'adopt'
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.4
+      - name: Run dependencies
+        run: ./gradlew :shared:dependencies :android:dependencies --stacktrace --scan
+
+  build:
+    needs:
+      - pre-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: build-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+      - name: Setup Java
+        uses: actions/setup-java@v2.1.0
+        with:
+          java-version: 11
+          distribution: 'adopt'
+
+# MARK - Shared
+      - name: Assemble Shared
+        run: ./gradlew clean :shared:assemble --stacktrace --scan
+# MARK - Shared
+#
+# MARK - Android
+      - name: Assemble Android
+        run: ./gradlew :android:assembleRelease -Dkotlin.native.ignoreDisabledTargets=true --stacktrace --scan
+      - name: Archive APKs
+        run: |
+          cp android/build/outputs/apk/release/*.apk release-${{ github.sha }}.apk
+      - name: Upload archived assets
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: build-archive
+          path: release-${{ github.sha }}.apk
+          retention-days: 1
+      - name: Push APK to assets/master
+        if: github.ref == 'refs/heads/master'
+        run: |
+          git config user.name "Github Action"
+          git config user.email "elliot.tormey@gmail.com"
+          git checkout --orphan assets/master
+          git rm --cached -r .
+          cp -R app/build/outputs/apk/release/. assets
+          git add assets
+          git commit -m 'add assets from ${{ github.sha }}'
+          git push -f origin assets/master
+# MARK - Android
+#
+# MARK - iOS
+# TODO
+# MARK - iOS
