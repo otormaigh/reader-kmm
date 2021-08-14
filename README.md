@@ -1,4 +1,4 @@
-# Reader - Kotlin Multi-Platform
+# Reader - Kotlin Multiplatform Mobile
 
     Copyright 2021 Elliot Tormey
 
