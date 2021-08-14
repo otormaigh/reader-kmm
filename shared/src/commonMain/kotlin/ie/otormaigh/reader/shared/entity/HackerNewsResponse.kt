@@ -20,7 +20,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HackerNewsItem(
+data class HackerNewsItemResponse(
   @SerialName("by") val by: String,
   @SerialName("descendants") val descendants: Int? = null,
   @SerialName("id") val id: Int,
@@ -28,5 +28,5 @@ data class HackerNewsItem(
   @SerialName("time") val time: Long,
   @SerialName("title") val title: String,
   @SerialName("type") val type: String,
-  @SerialName("url") val url: String? = null,
+  @SerialName("url") val url: String = "",
 )

@@ -20,7 +20,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ie.otormaigh.reader.databinding.ActivityMainBinding
 import ie.otormaigh.reader.shared.Greeting
-import ie.otormaigh.reader.shared.networking.HackerNewsApi
+import ie.otormaigh.reader.shared.persistence.DatabaseDriverFactory
+import ie.otormaigh.reader.shared.persistence.ItemStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
+  private val itemStore by lazy { ItemStore(DatabaseDriverFactory(this)) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     CoroutineScope(Dispatchers.IO).launch {
       var titles = ""
 
-      HackerNewsApi().getFeedItems().forEach { item ->
+      itemStore.fetchAllItems().forEach { item ->
         Timber.d(item.url)
 
         titles += "\n${item.title}"
