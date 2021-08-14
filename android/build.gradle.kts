@@ -32,7 +32,7 @@ dependencies {
 android {
   compileSdkVersion(30)
   defaultConfig {
-    applicationId = "ie.otormaigh.reader.androidApp"
+    applicationId = "ie.otormaigh.reader"
     minSdkVersion(24)
     targetSdkVersion(30)
     versionCode = 1

@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-pluginManagement {
-  repositories {
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-  }
+package ie.otormaigh.reader
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import ie.otormaigh.reader.shared.Greeting
+import android.widget.TextView
+
+fun greet(): String {
+  return Greeting().greeting()
 }
 
-rootProject.name = "reader-kmm"
+class MainActivity : AppCompatActivity() {
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
 
-include(":android")
-include(":shared")
-
+    val tv: TextView = findViewById(R.id.text_view)
+    tv.text = greet()
+  }
+}
