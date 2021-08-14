@@ -19,8 +19,11 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   package="ie.otormaigh.reader">
 
+  <uses-permission android:name="android.permission.INTERNET"/>
+
   <application
     android:allowBackup="false"
+    android:name=".ReaderApplication"
     android:label="@string/app_name"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
