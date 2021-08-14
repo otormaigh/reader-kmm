@@ -39,7 +39,7 @@ android {
 
   signingConfigs {
     named("debug").configure {
-      storeFile = file("../signing/debug.keystore")
+      storeFile = file("signing/debug.keystore")
     }
   }
 
