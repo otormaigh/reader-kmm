@@ -16,10 +16,16 @@
 
 package ie.otormaigh.reader
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ie.otormaigh.reader.shared.Greeting
+import androidx.appcompat.app.AppCompatActivity
 import ie.otormaigh.reader.databinding.ActivityMainBinding
+import ie.otormaigh.reader.shared.Greeting
+import ie.otormaigh.reader.shared.networking.HackerNewsApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
@@ -30,5 +36,19 @@ class MainActivity : AppCompatActivity() {
     setContentView(binding.root)
 
     binding.tvHelloWorld.text = Greeting().greeting()
+
+    CoroutineScope(Dispatchers.IO).launch {
+      var titles = ""
+
+      HackerNewsApi().getFeedItems().forEach { item ->
+        Timber.d(item.url)
+
+        titles += "\n${item.title}"
+      }
+
+      withContext(Dispatchers.Main) {
+        binding.tvHelloWorld.text = titles
+      }
+    }
   }
 }

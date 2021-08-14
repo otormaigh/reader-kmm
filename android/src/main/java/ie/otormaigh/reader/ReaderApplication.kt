@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-  }
-  dependencies {
-    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
-    classpath("com.android.tools.build:gradle:4.2.2")
-    classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.21")
-  }
-}
+package ie.otormaigh.reader
 
-group = "ie.otormaigh.reader"
-version = "0.1"
+import android.app.Application
+import timber.log.Timber
 
-allprojects {
-  repositories {
-    google()
-    mavenCentral()
+class ReaderApplication: Application() {
+  override fun onCreate() {
+    super.onCreate()
+
+    if (BuildConfig.DEBUG) Timber.plant(object : Timber.DebugTree() {
+      override fun createStackElementTag(element: StackTraceElement) = "(${element.fileName}:${element.lineNumber})"
+    })
   }
 }

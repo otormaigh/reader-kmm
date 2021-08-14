@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-  }
-  dependencies {
-    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
-    classpath("com.android.tools.build:gradle:4.2.2")
-    classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.21")
-  }
-}
+package ie.otormaigh.reader.shared.entity
 
-group = "ie.otormaigh.reader"
-version = "0.1"
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-allprojects {
-  repositories {
-    google()
-    mavenCentral()
-  }
-}
+@Serializable
+data class HackerNewsItem(
+  @SerialName("by") val by: String,
+  @SerialName("descendants") val descendants: Int? = null,
+  @SerialName("id") val id: Int,
+  @SerialName("score") val score: Int,
+  @SerialName("time") val time: Long,
+  @SerialName("title") val title: String,
+  @SerialName("type") val type: String,
+  @SerialName("url") val url: String? = null,
+)
