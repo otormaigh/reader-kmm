@@ -19,18 +19,16 @@ package ie.otormaigh.reader
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ie.otormaigh.reader.shared.Greeting
-import android.widget.TextView
-
-fun greet(): String {
-  return Greeting().greeting()
-}
+import ie.otormaigh.reader.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+  private lateinit var binding: ActivityMainBinding
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
 
-    val tv: TextView = findViewById(R.id.text_view)
-    tv.text = greet()
+    binding.tvHelloWorld.text = Greeting().greeting()
   }
 }

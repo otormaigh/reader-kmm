@@ -22,15 +22,9 @@ plugins {
 group = "ie.otormaigh.reader"
 version = "0.1"
 
-dependencies {
-  implementation(project(":shared"))
-  implementation("com.google.android.material:material:1.2.1")
-  implementation("androidx.appcompat:appcompat:1.2.0")
-  implementation("androidx.constraintlayout:constraintlayout:2.0.2")
-}
-
 android {
   compileSdkVersion(30)
+
   defaultConfig {
     applicationId = "ie.otormaigh.reader"
     minSdkVersion(24)
@@ -38,9 +32,22 @@ android {
     versionCode = 1
     versionName = "1.0"
   }
+
+  buildFeatures {
+    viewBinding = true
+  }
+
   buildTypes {
     getByName("release") {
       isMinifyEnabled = false
     }
   }
+}
+
+dependencies {
+  implementation(project(":shared"))
+
+  implementation("com.google.android.material:material:1.2.1")
+  implementation("androidx.appcompat:appcompat:1.2.0")
+  implementation("androidx.constraintlayout:constraintlayout:2.0.2")
 }
