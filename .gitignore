@@ -16,3 +16,6 @@ build
 
 # OSX
 .DS_Store
+
+# JVM
+*.hprof
