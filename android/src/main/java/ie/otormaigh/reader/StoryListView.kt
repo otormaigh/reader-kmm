@@ -14,27 +14,26 @@
  * limitations under the License.
  */
 
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-  }
+package ie.otormaigh.reader
 
-  dependencies {
-    classpath("com.android.tools.build:gradle:7.1.0-alpha08")
-    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
-    classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.21")
-    classpath("com.squareup.sqldelight:gradle-plugin:1.5.1")
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import ie.otormaigh.reader.shared.persistence.HackerNewsItem
+
+@Composable
+fun StoryListView(
+  listItems: List<HackerNewsItem>
+) {
+  LazyColumn {
+    items(listItems) { listItem ->
+      StoryListItemView(listItem)
+    }
   }
 }
 
-group = "ie.otormaigh.reader"
-version = "0.1"
-
-allprojects {
-  repositories {
-    google()
-    mavenCentral()
-  }
+@Composable
+fun StoryListItemView(listItem: HackerNewsItem) {
+  Text(text = listItem.title)
 }

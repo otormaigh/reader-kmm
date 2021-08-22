@@ -18,6 +18,8 @@ package ie.otormaigh.reader
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.MaterialTheme
+import androidx.compose.ui.platform.ComposeView
 import ie.otormaigh.reader.databinding.ActivityMainBinding
 import ie.otormaigh.reader.shared.Greeting
 import ie.otormaigh.reader.shared.persistence.DatabaseDriverFactory
@@ -37,19 +39,14 @@ class MainActivity : AppCompatActivity() {
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
 
-    binding.tvHelloWorld.text = Greeting().greeting()
-
     CoroutineScope(Dispatchers.IO).launch {
-      var titles = ""
-
-      itemStore.fetchAllItems().forEach { item ->
-        Timber.d(item.url)
-
-        titles += "\n${item.title}"
-      }
-
+      val items = itemStore.fetchAllItems()
       withContext(Dispatchers.Main) {
-        binding.tvHelloWorld.text = titles
+        binding.contentRoot.setContent {
+          MaterialTheme {
+            StoryListView(items)
+          }
+        }
       }
     }
   }
