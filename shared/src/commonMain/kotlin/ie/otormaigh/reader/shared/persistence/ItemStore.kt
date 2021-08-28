@@ -18,6 +18,7 @@ package ie.otormaigh.reader.shared.persistence
 
 import ie.otormaigh.reader.shared.entity.HackerNewsItemResponse
 import ie.otormaigh.reader.shared.networking.HackerNewsApi
+import java.net.URI
 
 class ItemStore(databaseDriverFactory: DatabaseDriverFactory) {
   private val database by lazy { ReaderDatabase(databaseDriverFactory.createDriver()) }
@@ -36,7 +37,9 @@ class ItemStore(databaseDriverFactory: DatabaseDriverFactory) {
         HackerNewsItem(
           id = item.id.toString(),
           title = item.title,
-          url = item.url
+          url = item.url,
+          urlHost = URI(item.url).host.removePrefix("www."),
+          score = item.score
         )
       )
     }
