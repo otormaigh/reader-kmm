@@ -31,25 +31,18 @@ class HackerNewsApi {
       serializer = KotlinxSerializer(json)
     }
   }
-  private val cachedItems = mutableListOf<HackerNewsItemResponse>()
 
+  @Throws(Exception::class)
   suspend fun getFeedItems(page: Int = 1): List<HackerNewsItemResponse> {
-    // TODO: Some better caching/pagination
-    if (page <= 1 || cachedItems.isEmpty()) {
-      cachedItems.clear()
-    } else {
-      val start = PAGE_SIZE * page
-      val end = start + PAGE_SIZE
-      return cachedItems.subList(start, end)
-    }
-
     val ids: List<Int> = httpClient.get("$BASE_URL/topstories.json")
-    val items = mutableListOf<HackerNewsItemResponse>()
+    val start = PAGE_SIZE * (page.takeIf { it >= 1 } ?: 1)
+    val end = start + PAGE_SIZE
 
-    ids.take(25).forEach { id ->
-      items += getItem(id)
-    }
-    return items
+    return ids
+      .subList(start, end)
+      .map { id ->
+        getItem(id)
+      }
   }
 
   private suspend fun getItem(id: Int): HackerNewsItemResponse =

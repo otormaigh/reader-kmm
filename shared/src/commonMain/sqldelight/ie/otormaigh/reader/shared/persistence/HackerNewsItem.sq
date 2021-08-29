@@ -7,7 +7,7 @@ CREATE TABLE HackerNewsItem (
 );
 
 insert:
-INSERT INTO
+INSERT OR REPLACE INTO
 HackerNewsItem
 VALUES ?;
 

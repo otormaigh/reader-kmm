@@ -25,10 +25,8 @@ class ItemStore(databaseDriverFactory: DatabaseDriverFactory) {
   private val api by lazy { HackerNewsApi() }
 
   suspend fun fetchAllItems(): List<HackerNewsItem> {
-    val query = database.hackerNewsItemQueries.selectAll()
-    if (query.executeAsList().isEmpty()) insertFromResponse(api.getFeedItems())
-
-    return query.executeAsList()
+    insertFromResponse(api.getFeedItems())
+    return database.hackerNewsItemQueries.selectAll().executeAsList()
   }
 
   private fun insertFromResponse(items: List<HackerNewsItemResponse>) {
