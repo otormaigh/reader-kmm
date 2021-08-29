@@ -18,7 +18,7 @@ package ie.otormaigh.reader.shared.persistence
 
 import ie.otormaigh.reader.shared.entity.HackerNewsItemResponse
 import ie.otormaigh.reader.shared.networking.HackerNewsApi
-import java.net.URI
+import io.ktor.http.*
 
 class ItemStore(databaseDriverFactory: DatabaseDriverFactory) {
   private val database by lazy { ReaderDatabase(databaseDriverFactory.createDriver()) }
@@ -33,15 +33,19 @@ class ItemStore(databaseDriverFactory: DatabaseDriverFactory) {
 
   private fun insertFromResponse(items: List<HackerNewsItemResponse>) {
     items.forEach { item ->
-      database.hackerNewsItemQueries.insert(
-        HackerNewsItem(
-          id = item.id.toString(),
-          title = item.title,
-          url = item.url,
-          urlHost = URI(item.url).host.removePrefix("www."),
-          score = item.score
+      try {
+        database.hackerNewsItemQueries.insert(
+          HackerNewsItem(
+            id = item.id.toString(),
+            title = item.title,
+            url = item.url,
+            urlHost = Url(item.url).host.removePrefix("www."),
+            score = item.score
+          )
         )
-      )
+      } catch (e: Exception) {
+        // TODO : Logging
+      }
     }
   }
 }
