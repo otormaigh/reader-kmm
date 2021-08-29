@@ -1,11 +1,13 @@
 CREATE TABLE HackerNewsItem (
   id TEXT NOT NULL PRIMARY KEY,
   title TEXT NOT NULL,
-  url TEXT NOT NULL
+  url TEXT NOT NULL,
+  urlHost TEXT NOT NULL,
+  score INTEGER AS Int NOT NULL
 );
 
 insert:
-INSERT INTO
+INSERT OR REPLACE INTO
 HackerNewsItem
 VALUES ?;
 

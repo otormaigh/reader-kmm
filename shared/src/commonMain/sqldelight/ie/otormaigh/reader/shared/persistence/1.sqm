@@ -1,0 +1,3 @@
+-- ERROR: No table found with name HackerNewsItem --
+-- ALTER TABLE HackerNewsItem ADD COLUMN urlHost TEXT NOT NULL;
+-- ALTER TABLE HackerNewsItem ADD COLUMN score INTEGER NOT NULL;
