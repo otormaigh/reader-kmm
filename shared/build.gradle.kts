@@ -97,7 +97,7 @@ android {
 sqldelight {
   database("ReaderDatabase") {
     packageName = "ie.otormaigh.reader.shared.persistence"
-    schemaOutputDirectory = file("src/sqldelight/ie/otormaigh/reader/shared/persistence/databases")
+    schemaOutputDirectory = file("src/commonMain/sqldelight/ie/otormaigh/reader/shared/persistence/databases")
     verifyMigrations = true
   }
 }
