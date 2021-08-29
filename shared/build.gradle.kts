@@ -40,12 +40,17 @@ kotlin {
     else iosX64("ios")
   }
 
-  val ktorVersion = "1.6.1"
+  val ktorVersion = "1.6.3"
   val sqlDelightVersion = "1.5.1"
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1-native-mt")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1-native-mt") {
+          version {
+            strictly("1.5.1-native-mt")
+          }
+        }
+
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.2.2")
 
         implementation("io.ktor:ktor-client-core:$ktorVersion")

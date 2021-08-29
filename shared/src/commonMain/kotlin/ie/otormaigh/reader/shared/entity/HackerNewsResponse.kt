@@ -22,11 +22,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HackerNewsItemResponse(
   @SerialName("by") val by: String,
-  @SerialName("descendants") val descendants: Int? = null,
+  @SerialName("descendants") val descendants: Int,
   @SerialName("id") val id: Int,
   @SerialName("score") val score: Int,
   @SerialName("time") val time: Long,
   @SerialName("title") val title: String,
   @SerialName("type") val type: String,
-  @SerialName("url") val url: String = "",
+  @SerialName("url") val url: String,
 )

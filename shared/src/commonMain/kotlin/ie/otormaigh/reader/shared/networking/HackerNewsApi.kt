@@ -22,12 +22,16 @@ import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import kotlinx.serialization.json.Json
+import kotlin.native.concurrent.ThreadLocal
 
 class HackerNewsApi {
   private val httpClient = HttpClient {
     // TODO: Logging
     install(JsonFeature) {
-      val json = Json { ignoreUnknownKeys = true }
+      val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+      }
       serializer = KotlinxSerializer(json)
     }
   }
@@ -40,8 +44,12 @@ class HackerNewsApi {
 
     return ids
       .subList(start, end)
-      .map { id ->
-        getItem(id)
+      .mapNotNull { id ->
+        try {
+          getItem(id)
+        } catch (e: Exception) {
+          null
+        }
       }
   }
 
