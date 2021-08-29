@@ -39,7 +39,10 @@ fun StoryListView(
   listItems: List<HackerNewsItem>
 ) {
   LazyColumn(
-    modifier = Modifier.padding(12.dp)
+    modifier = Modifier.padding(
+      start = 12.dp,
+      end = 12.dp
+    )
   ) {
     items(listItems) { listItem ->
       StoryListItemView(listItem)
@@ -49,6 +52,8 @@ fun StoryListView(
 
 @Composable
 fun StoryListItemView(listItem: HackerNewsItem) {
+  Spacer(modifier = Modifier.padding(bottom = 6.dp))
+
   Row(
     verticalAlignment = Alignment.CenterVertically
   ) {
@@ -74,10 +79,9 @@ fun StoryListItemView(listItem: HackerNewsItem) {
       )
     }
   }
-  
+
   Spacer(modifier = Modifier.padding(bottom = 6.dp))
   Divider()
-  Spacer(modifier = Modifier.padding(bottom = 6.dp))
 }
 
 @Preview
