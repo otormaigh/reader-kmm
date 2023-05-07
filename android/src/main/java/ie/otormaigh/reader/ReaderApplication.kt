@@ -23,8 +23,8 @@ class ReaderApplication: Application() {
   override fun onCreate() {
     super.onCreate()
 
-    if (BuildConfig.DEBUG) Timber.plant(object : Timber.DebugTree() {
-      override fun createStackElementTag(element: StackTraceElement) = "(${element.fileName}:${element.lineNumber})"
-    })
+//    if (BuildConfig.DEBUG) Timber.plant(object : Timber.DebugTree() {
+//      override fun createStackElementTag(element: StackTraceElement) = "(${element.fileName}:${element.lineNumber})"
+//    })
   }
 }

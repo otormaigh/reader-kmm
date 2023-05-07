@@ -18,23 +18,27 @@ package ie.otormaigh.reader.shared.networking
 
 import ie.otormaigh.reader.shared.entity.HackerNewsItemResponse
 import io.ktor.client.*
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.*
+import io.ktor.client.call.body
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.*
-import kotlinx.serialization.json.Json
+import io.ktor.serialization.kotlinx.json.*
 
 class HackerNewsApi {
-  private val httpClient = HttpClient {
-    // TODO: Logging
-    install(JsonFeature) {
-      val json = Json { ignoreUnknownKeys = true }
-      serializer = KotlinxSerializer(json)
+  private val httpClient = HttpClient(CIO) {
+//    install(Logging) {
+//      logger = Logger.Companion.DEFAULT
+//      level = LogLevel.HEADERS
+//    }
+
+    install(ContentNegotiation) {
+      json()
     }
   }
 
   @Throws(Exception::class)
   suspend fun getFeedItems(page: Int = 1): List<HackerNewsItemResponse> {
-    val ids: List<Int> = httpClient.get("$BASE_URL/topstories.json")
+    val ids: List<Int> = httpClient.get("$BASE_URL/topstories.json").body()
     val start = PAGE_SIZE * (page.takeIf { it >= 1 } ?: 1)
     val end = start + PAGE_SIZE
 
@@ -46,7 +50,7 @@ class HackerNewsApi {
   }
 
   private suspend fun getItem(id: Int): HackerNewsItemResponse =
-    httpClient.get("$BASE_URL/item/$id.json/")
+    httpClient.get("$BASE_URL/item/$id.json/").body()
 
   companion object {
     private const val BASE_URL = "https://hacker-news.firebaseio.com/v0"

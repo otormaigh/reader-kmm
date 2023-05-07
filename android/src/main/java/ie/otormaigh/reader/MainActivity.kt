@@ -19,16 +19,13 @@ package ie.otormaigh.reader
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
-import androidx.compose.ui.platform.ComposeView
 import ie.otormaigh.reader.databinding.ActivityMainBinding
-import ie.otormaigh.reader.shared.Greeting
 import ie.otormaigh.reader.shared.persistence.DatabaseDriverFactory
 import ie.otormaigh.reader.shared.persistence.ItemStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
