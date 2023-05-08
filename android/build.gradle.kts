@@ -38,6 +38,7 @@ android {
   buildFeatures {
     viewBinding = true
     compose = true
+    buildConfig = true
   }
 
   composeOptions {
@@ -93,8 +94,3 @@ dependencies {
 
   implementation("com.jakewharton.timber:timber:5.0.1")
 }
-
-//configurations.all {
-//  exclude("org.slf4j", "slf4j-api")
-//  exclude("org.slf4j", "slf4j-simple")
-//}
